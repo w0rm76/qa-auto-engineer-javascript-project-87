@@ -1,7 +1,10 @@
 #!/usr/bin/env node
+import parse from './parse.js';
 
-const commander = require('commander');
-const program = new commander.Command();
+import { Command } from 'commander';
+const program = new Command();
+
+let filepath1, filepath2;
 
 program
     .name('gendiff');
@@ -11,12 +14,18 @@ program
 
 program
     .option('-f, --format <type>', 'output format');
-
+    
 program
-    .argument('<filepath1>', 'filepath1')
-    .argument('<filepath2>', 'filepath2');
+    .argument('<filepath1>', 'адрес файла 1', filepath1)
+    .argument('<filepath2>', 'адрес файла 2', filepath2)
+    .action((filepath1, filepath2) => {
+        console.log(parse(filepath1));
+        console.log(parse(filepath2));
+    });
 
 program
     .description('Compares two configuration files and shows a difference.');
 
 program.parse(process.argv);
+
+export default { filepath1, filepath2 } 
